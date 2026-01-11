@@ -15,15 +15,23 @@ export default function Game() {
   const [obstacles, setObstacles] = useState<Obstacle[]>([])
   const [score, setScore] = useState(0)
 
-  // controls
+  // keyboard controls
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') setLane(l => Math.max(-1, l - 1))
-      if (e.key === 'ArrowRight') setLane(l => Math.min(1, l + 1))
+      if (e.key === 'ArrowLeft') moveLeft()
+      if (e.key === 'ArrowRight') moveRight()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+
+  const moveLeft = () => {
+    setLane(l => Math.max(-1, l - 1))
+  }
+
+  const moveRight = () => {
+    setLane(l => Math.min(1, l + 1))
+  }
 
   // game loop
   useEffect(() => {
@@ -97,7 +105,22 @@ export default function Game() {
         ))}
       </div>
 
-      <p>⬅️ ➡️ Arrow keys use karo</p>
+      {/* MOBILE BUTTONS */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
+        <button onClick={moveLeft} style={btnStyle}>⬅️</button>
+        <button onClick={moveRight} style={btnStyle}>➡️</button>
+      </div>
+
+      <p>Keyboard ya buttons use karo</p>
     </div>
   )
+}
+
+const btnStyle: React.CSSProperties = {
+  fontSize: 24,
+  padding: '12px 20px',
+  borderRadius: 10,
+  border: 'none',
+  background: '#333',
+  color: 'white',
 }
